@@ -20,17 +20,6 @@ pipeline{
                      sh "mvn clean package"
                      sh "mvn package"
                   }
-            post{
-                always{
-                    echo "========always========"
-                    }
-                success{
-                    echo "========A executed successfully========"
-                    }
-                failure{
-                    echo "========A execution failed========"
-                    }
-                }
             }
         }
     }
