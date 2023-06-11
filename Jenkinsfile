@@ -22,6 +22,37 @@ pipeline{
                   }
             }
         }
+
+        stage('ssh') {
+            steps {
+                script{
+                     
+                    cleanWs()
+                    // sh "echo 'hello' >> file1.txt"
+                    // sh "echo 'hello' >> file2.txt"
+                    // sh "zip -r oneFile.zip file1.txt file2.txt"
+                     
+                    // echo 'Local files.....'       
+                    // sh 'ls -l'
+ 
+                    command='ansible-playbook play.yaml'
+                         
+ 
+                //   // Copy file to remote server 
+                //   sshPublisher(publishers: [sshPublisherDesc(configName: 'dummy-server',
+                //     transfers: [ sshTransfer(flatten: false,
+                //                  remoteDirectory: './',
+                //                  sourceFiles: 'oneFile.zip'
+                //     )])
+                //   ])
+                   
+                  // Execute commands
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(execCommand: command    )])])
+                     
+                }
+            }
+        }
     }
     post{
         always{
