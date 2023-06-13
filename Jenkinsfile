@@ -23,36 +23,51 @@ pipeline{
             }
         }
 
-        stage('ssh') {
-            steps {
+        stage("buling container and push to repo"){
+            steps{
                 script{
-                     
-                    cleanWs()
-                    // sh "echo 'hello' >> file1.txt"
-                    // sh "echo 'hello' >> file2.txt"
-                    // sh "zip -r oneFile.zip file1.txt file2.txt"
-                     
-                    // echo 'Local files.....'       
-                    // sh 'ls -l'
- 
-                    command='ansible-playbook play.yaml'
-                         
- 
-                //   // Copy file to remote server 
-                //   sshPublisher(publishers: [sshPublisherDesc(configName: 'dummy-server',
-                //     transfers: [ sshTransfer(flatten: false,
-                //                  remoteDirectory: './',
-                //                  sourceFiles: 'oneFile.zip'
-                //     )])
-                //   ])
-                   
-                  // Execute commands
-                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-                    transfers: [ sshTransfer(execCommand: command    )])])
-                     
+                   echo "=========== bulding image ============"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        echo "=========building container image ==========="
+                        sh "docker build -t  mar97/java-web-app:$IMAGE_VERSION ."
+                        sh "echo $PASSWORD | docker login -u $USERNAME  --password-stdin"
+                        echo "docker push image"
+                        sh "docker push mar97/java-web-app:$IMAGE_VERSION"
+                    }
                 }
             }
         }
+
+        // stage('ssh') {
+        //     steps {
+        //         script{
+                     
+        //             cleanWs()
+        //             // sh "echo 'hello' >> file1.txt"
+        //             // sh "echo 'hello' >> file2.txt"
+        //             // sh "zip -r oneFile.zip file1.txt file2.txt"
+                     
+        //             // echo 'Local files.....'       
+        //             // sh 'ls -l'
+ 
+        //             command='ansible-playbook play.yaml'
+                         
+ 
+        //         //   // Copy file to remote server 
+        //         //   sshPublisher(publishers: [sshPublisherDesc(configName: 'dummy-server',
+        //         //     transfers: [ sshTransfer(flatten: false,
+        //         //                  remoteDirectory: './',
+        //         //                  sourceFiles: 'oneFile.zip'
+        //         //     )])
+        //         //   ])
+                   
+        //           // Execute commands
+        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+        //             transfers: [ sshTransfer(execCommand: command    )])])
+                     
+        //         }
+        //     }
+        // }
     }
     post{
         always{
