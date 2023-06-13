@@ -29,11 +29,20 @@ pipeline{
                    echo "=========== bulding image ============"
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         echo "=========building container image ==========="
-                        sh "docker build -t  mar97/java-web-app:$IMAGE_VERSION ."
+                        sh "docker build -t  mar97/java-web-app:v$IMAGE_VERSION ."
                         sh "echo $PASSWORD | docker login -u $USERNAME  --password-stdin"
                         echo "docker push image"
-                        sh "docker push mar97/java-web-app:$IMAGE_VERSION"
+                        sh "docker push mar97/java-web-app:v$IMAGE_VERSION"
                     }
+                }
+            }
+        }
+
+        stage("update ansible config files"){
+            steps{
+                script{
+                    echo "============= update ansible files ==========="
+                    sh "sed -i 's/java-web-app:1.0.1-6 ]*/java-web-app:v$IMAGE_VERSION ansible/deploy.yaml"
                 }
             }
         }
