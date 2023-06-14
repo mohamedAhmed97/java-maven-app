@@ -43,7 +43,7 @@ pipeline{
                 script{
                     echo "============= update ansible files ==========="
                     sh """#!/bin/bash
-                        sed -i 's/java-web-app[^ ]*/java-web-app:v$IMAGE_VERSION' ansible/deploy.yaml
+                        sed -i 's/java-web-app[^ ]*/java-web-app:v111' ansible/deploy.yaml
                     """
                 }
             }
