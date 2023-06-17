@@ -45,7 +45,7 @@ pipeline{
                     sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}/g" ansible/deploy.yaml'
                     echo "============= push changes ==========="
                     withCredentials([usernamePassword(credentialsId: 'jenkins_github_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'git remote set-url origin git@github.com:${USERNAME}/java-maven-app.git'
+                        sh 'git remote set-url origin  https://${PASSWORD}@github.com/${USERNAME}/java-maven-app.git'
                         sh 'git add .'
                         sh 'git commit -m "ci: update version in ansible file"'
                         sh 'git push origin master'
