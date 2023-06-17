@@ -42,11 +42,14 @@ pipeline{
             steps{
                 script{
                     echo "============= update ansible files ==========="
-                    //  sh "sed -i 's/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}'  ansible/deploy.yaml"
-                     sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}/g" ansible/deploy.yaml'
-                    // sh """#!/bin/bash
-                    //     sed -i ''
-                    // """
+                    sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}/g" ansible/deploy.yaml'
+                    echo "============= push changes ==========="
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_github_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'git add .'
+                        sh 'git commit -m "ci: update version in ansible file"'
+                        sh 'git push origin master'
+                    }
+
                 }
             }
         }
