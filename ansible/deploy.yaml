@@ -3,4 +3,4 @@
   hosts: localhost 
   tasks:
     - name: run docker image
-      command: "docker run -p 8088:8080 -d mar97/java-web-app:v1.0.8-29
+      command: "docker run -p 8088:8080 -d mar97/java-web-app:v1.0.8-29"
