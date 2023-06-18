@@ -82,9 +82,9 @@ pipeline{
                 //   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
                 //     transfers: [ sshTransfer(execCommand: command    )])])
                      
-                // }
+                }
             }
-        }
+        }    
     }
     post{
         always{
