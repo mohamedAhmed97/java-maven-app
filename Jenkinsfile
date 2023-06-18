@@ -59,7 +59,7 @@ pipeline{
             steps {
                 script{
                      
-                    cleanWs()
+                    // cleanWs()
                     // sh "echo 'hello' >> file1.txt"
                     // sh "echo 'hello' >> file2.txt"
                     // sh "zip -r oneFile.zip file1.txt file2.txt"
