@@ -67,7 +67,7 @@ pipeline{
                     // echo 'Local files.....'       
                     // sh 'ls -l'
  
-                    // command='ansible-playbook play.yaml'
+                    command='ansible-playbook java-webapp/ansible/deploy.yaml'
                          
  
                   // Copy file to remote server 
@@ -79,8 +79,8 @@ pipeline{
                   ])
                    
                   // Execute commands
-                //   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-                //     transfers: [ sshTransfer(execCommand: command    )])])
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(execCommand: command    )])])
                      
                 }
             }
