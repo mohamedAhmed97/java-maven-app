@@ -42,7 +42,11 @@ pipeline{
             steps{
                 script{
                     echo "============= update ansible files ==========="
-                    sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g" ansible/deploy.yaml"'
+                    // sed -i 's/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g' ansible/deploy.yaml
+                    sh '''
+                    sed -i "s/mar97]\\/java-web-app:v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/mar97\\/java-web-app:v2.0.0-42/" ansible/deploy.yaml
+                    '''
+                    // sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g" ansible/deploy.yaml'
                     echo "============= push changes ==========="
                     withCredentials([usernamePassword(credentialsId: 'jenkins_github_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'git remote set-url origin  https://${PASSWORD}@github.com/mohamedAhmed97/java-maven-app.git'
