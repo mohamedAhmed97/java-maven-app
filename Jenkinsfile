@@ -55,36 +55,36 @@ pipeline{
             }
         }
 
-        // stage('ssh') {
-        //     steps {
-        //         script{
+        stage('copy edited ansible file using ssh') {
+            steps {
+                script{
                      
-        //             cleanWs()
-        //             // sh "echo 'hello' >> file1.txt"
-        //             // sh "echo 'hello' >> file2.txt"
-        //             // sh "zip -r oneFile.zip file1.txt file2.txt"
+                    cleanWs()
+                    // sh "echo 'hello' >> file1.txt"
+                    // sh "echo 'hello' >> file2.txt"
+                    // sh "zip -r oneFile.zip file1.txt file2.txt"
                      
-        //             // echo 'Local files.....'       
-        //             // sh 'ls -l'
+                    // echo 'Local files.....'       
+                    // sh 'ls -l'
  
-        //             command='ansible-playbook play.yaml'
+                    // command='ansible-playbook play.yaml'
                          
  
-        //         //   // Copy file to remote server 
-        //         //   sshPublisher(publishers: [sshPublisherDesc(configName: 'dummy-server',
-        //         //     transfers: [ sshTransfer(flatten: false,
-        //         //                  remoteDirectory: './',
-        //         //                  sourceFiles: 'oneFile.zip'
-        //         //     )])
-        //         //   ])
+                  // Copy file to remote server 
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(flatten: false,
+                                 remoteDirectory: './java-webapp',
+                                 sourceFiles: 'ansible/deploy.yaml'
+                    )])
+                  ])
                    
-        //           // Execute commands
-        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-        //             transfers: [ sshTransfer(execCommand: command    )])])
+                  // Execute commands
+                //   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                //     transfers: [ sshTransfer(execCommand: command    )])])
                      
-        //         }
-        //     }
-        // }
+                // }
+            }
+        }
     }
     post{
         always{
