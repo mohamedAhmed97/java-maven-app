@@ -61,11 +61,11 @@ pipeline{
                      
                     cleanWs()
                     // sh "echo 'hello' >> file1.txt"
-                    // sh "echo 'hello' >> file2.txt"
+                    sh "echo 'hello' >> file2.txt"
                     // sh "zip -r oneFile.zip file1.txt file2.txt"
                      
                     // echo 'Local files.....'       
-                    // sh 'ls -l'
+                    sh 'ls -l'
  
                     // command='ansible-playbook play.yaml'
                          
@@ -74,7 +74,7 @@ pipeline{
                   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
                     transfers: [ sshTransfer(flatten: false,
                                  remoteDirectory: './',
-                                 sourceFiles: 'ansible/deploy.yaml'
+                                 sourceFiles: 'file2.txt'
                     )])
                   ])
                    
