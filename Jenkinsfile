@@ -66,6 +66,12 @@ pipeline{
                      
                     // cleanWs()
                     command='ansible-playbook -i java-webapp/ansible/hosts  java-webapp/ansible/test_k8s.yaml'
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(flatten: false,
+                                 remoteDirectory: 'java-webapp',
+                                 sourceFiles: 'k8s/'
+                    )])
+                  ])
                   // Copy file to remote server 
                   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
                     transfers: [ sshTransfer(flatten: false,
