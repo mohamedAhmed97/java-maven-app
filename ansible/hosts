@@ -1,0 +1,5 @@
+[eks-server]
+54.226.226.42
+[eks-server:vars]
+ansible_user= ec2-user
+ansible_port= 22

@@ -1,5 +1,10 @@
 - name: test k8s server
-  hosts:  localhost
+  hosts: eks-server
   tasks:
-    - name: apply java-webapp
-      command: kubectl apply -f ../k8s/deployment.yaml
+    - name: Copy file to remote hosts
+      become: yes
+      copy:
+        src: ../k8s/deployment.yaml
+        dest: java-web-app/
+    # - name: apply java-webapp
+    #   command: kubectl apply -f ../k8s/deployment.yaml
