@@ -43,7 +43,7 @@ pipeline{
                 script{
                     echo "============= update ansible files ==========="
                     // sed -i 's/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g' ansible/deploy.yaml
-                    sed  -i'' -E 's/(mar97\\/java-web-app:v)[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/\\12.0.0-45/g' deploy.yaml
+                    // sed  -i'' -E 's/(mar97\\/java-web-app:v)[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/\\12.0.0-45/g' deploy.yaml
                     sh '''
                     sed -i "s/mar97]\\/java-web-app:v[0-100]\\+\\.[0-100]\\+\\.[0-100]\\+-[0-100]\\+/mar97\\/java-web-app:v2.0.0-42/" ansible/deploy.yaml
                     '''
