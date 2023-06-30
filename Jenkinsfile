@@ -43,8 +43,9 @@ pipeline{
                 script{
                     echo "============= update ansible files ==========="
                     // sed -i 's/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g' ansible/deploy.yaml
+                    sed  -i'' -E 's/(mar97\\/java-web-app:v)[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/\\12.0.0-45/g' deploy.yaml
                     sh '''
-                    sed -i "s/mar97]\\/java-web-app:v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/mar97\\/java-web-app:v2.0.0-42/" ansible/deploy.yaml
+                    sed -i "s/mar97]\\/java-web-app:v[0-100]\\+\\.[0-100]\\+\\.[0-100]\\+-[0-100]\\+/mar97\\/java-web-app:v2.0.0-42/" ansible/deploy.yaml
                     '''
                     // sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g" ansible/deploy.yaml'
                     echo "============= push changes ==========="
@@ -64,21 +65,12 @@ pipeline{
                 script{
                      
                     // cleanWs()
-                    // sh "echo 'hello' >> file1.txt"
-                    // sh "echo 'hello' >> file2.txt"
-                    // sh "zip -r oneFile.zip file1.txt file2.txt"
-                     
-                    // echo 'Local files.....'       
-                    // sh 'ls -l'
- 
                     command='ansible-playbook java-webapp/ansible/deploy.yaml'
-                         
- 
                   // Copy file to remote server 
                   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
                     transfers: [ sshTransfer(flatten: false,
                                  remoteDirectory: 'java-webapp',
-                                 sourceFiles: 'ansible/deploy.yaml'
+                                 sourceFiles: 'ansible/'
                     )])
                   ])
                    

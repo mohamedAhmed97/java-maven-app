@@ -1,0 +1,5 @@
+- name: test k8s server
+  hosts:  localhost
+  tasks:
+    - name: apply java-webapp
+      command: kubectl apply -f ../k8s/deployment.yaml
