@@ -65,7 +65,7 @@ pipeline{
                 script{
                      
                     // cleanWs()
-                    command='ansible-playbook java-webapp/ansible/deploy.yaml'
+                    command='ansible-playbook java-webapp/ansible/test_k8s.yaml'
                   // Copy file to remote server 
                   sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
                     transfers: [ sshTransfer(flatten: false,
