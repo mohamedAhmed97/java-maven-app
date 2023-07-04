@@ -3,7 +3,7 @@
   hosts: localhost 
   tasks:
     - name: run docker image
-      command: "docker run -p 8088:8080 -d mar97/java-web-app:v3.12.103-712"
+      command: "docker run -p 8088:8080 -d mar97/java-web-app:v1.0.13-39"
 
 
 # eksctl create cluster --name k8s-cluster \
