@@ -42,12 +42,8 @@ pipeline{
             steps{
                 script{
                     echo "============= update ansible files ==========="
-                    // sed -i 's/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g' ansible/deploy.yaml
-                    // sed  -i'' -E 's/(mar97\\/java-web-app:v)[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+-[0-9]\\+/\\12.0.0-45/g' deploy.yaml
-                    sh '''
-                    sed -i "s/mar97]\\/java-web-app:v[0-100]\\+\\.[0-100]\\+\\.[0-100]\\+-[0-100]\\+/mar97\\/java-web-app:v2.0.0-42/" ansible/deploy.yaml
-                    '''
-                    // sh 'sed -i "s/java-web-app[^ ]*/java-web-app:v${IMAGE_VERSION}"/g" ansible/deploy.yaml'
+                    sh 'shell/sed.sh $IMAGE_VERSION ansible/deploy.yaml'
+                    sh 'shell/sed.sh $IMAGE_VERSION k8s/deployment.yaml'                    
                     echo "============= push changes ==========="
                     withCredentials([usernamePassword(credentialsId: 'jenkins_github_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'git remote set-url origin  https://${PASSWORD}@github.com/mohamedAhmed97/java-maven-app.git'
@@ -60,33 +56,33 @@ pipeline{
             }
         }
 
-        stage('copy edited ansible file using ssh') {
-            steps {
-                script{
-                     
-                    // cleanWs()
-                    command='ansible-playbook -i java-webapp/ansible/hosts  java-webapp/ansible/test_k8s.yaml'
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-                    transfers: [ sshTransfer(flatten: false,
-                                 remoteDirectory: 'java-webapp',
-                                 sourceFiles: 'k8s/'
-                    )])
-                  ])
-                  // Copy file to remote server 
-                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-                    transfers: [ sshTransfer(flatten: false,
-                                 remoteDirectory: 'java-webapp',
-                                 sourceFiles: 'ansible/'
-                    )])
-                  ])
+        // stage('copy edited files using ssh') {
+        //     steps {
+        //         script{
+                    
+        //             // cleanWs()
+        //             command='ansible-playbook -i java-webapp/ansible/hosts  java-webapp/ansible/test_k8s.yaml'
+        //             sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+        //             transfers: [ sshTransfer(flatten: false,
+        //                          remoteDirectory: 'java-webapp',
+        //                          sourceFiles: 'k8s/'
+        //             )])
+        //           ])
+        //           // Copy file to remote server 
+        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+        //             transfers: [ sshTransfer(flatten: false,
+        //                          remoteDirectory: 'java-webapp',
+        //                          sourceFiles: 'ansible/'
+        //             )])
+        //           ])
                    
-                  // Execute commands
-                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-                    transfers: [ sshTransfer(execCommand: command    )])])
+        //           // Execute commands
+        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+        //             transfers: [ sshTransfer(execCommand: command    )])])
                      
-                }
-            }
-        }    
+        //         }
+        //     }
+        // }    
     }
     post{
         always{

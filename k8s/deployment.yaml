@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: java-webapp-container
-        image: mar97/java-web-app:v1.0.9-31
+        image: mar97/java-web-app:v3.12.103-721
         # imagePullPolicy: Always
         ports:
         - containerPort: 8080
