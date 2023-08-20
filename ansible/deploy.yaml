@@ -1,11 +1,10 @@
----
-- name: init server 
-  hosts: localhost 
+- name: test k8s server
+  hosts: eks-server
   tasks:
-    - name: run docker image
-      command: "docker run -p 8088:8080 -d mar97/java-web-app:v1.0.13-39"
-
-
-# eksctl create cluster --name k8s-cluster \
-#    --region us-east-1 \
-#    --node-type t2.small \ 
+    - name: Copy file to remote hosts
+      become: yes
+      copy:
+        src: ../k8s/deployment.yaml
+        dest: java-web-app/
+    - name: apply java-webapp
+      command: kubectl apply -f ../k8s/deployment.yaml

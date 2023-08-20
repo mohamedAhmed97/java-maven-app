@@ -56,33 +56,33 @@ pipeline{
             }
         }
 
-        // stage('copy edited files using ssh') {
-        //     steps {
-        //         script{
+        stage('copy edited files using ssh') {
+            steps {
+                script{
                     
-        //             // cleanWs()
-        //             command='ansible-playbook -i java-webapp/ansible/hosts  java-webapp/ansible/test_k8s.yaml'
-        //             sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-        //             transfers: [ sshTransfer(flatten: false,
-        //                          remoteDirectory: 'java-webapp',
-        //                          sourceFiles: 'k8s/'
-        //             )])
-        //           ])
-        //           // Copy file to remote server 
-        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-        //             transfers: [ sshTransfer(flatten: false,
-        //                          remoteDirectory: 'java-webapp',
-        //                          sourceFiles: 'ansible/'
-        //             )])
-        //           ])
+                    // cleanWs()
+                    command='ansible-playbook -i java-webapp/ansible/hosts  java-webapp/ansible/test_k8s.yaml'
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(flatten: false,
+                                 remoteDirectory: 'java-webapp',
+                                 sourceFiles: 'k8s/'
+                    )])
+                  ])
+                  // Copy file to remote server 
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(flatten: false,
+                                 remoteDirectory: 'java-webapp',
+                                 sourceFiles: 'ansible/'
+                    )])
+                  ])
                    
-        //           // Execute commands
-        //           sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
-        //             transfers: [ sshTransfer(execCommand: command    )])])
+                  // Execute commands
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible',
+                    transfers: [ sshTransfer(execCommand: command    )])])
                      
-        //         }
-        //     }
-        // }    
+                }
+            }
+        }    
     }
     post{
         always{
